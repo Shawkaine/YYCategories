@@ -185,7 +185,11 @@ YYSYNTH_DUMMY_CLASS(NSDictionary_YYAdd)
 }
 
 - (NSArray *)allKeysSorted {
-    return [[self allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    NSArray *keys = [self allKeys];
+    if ([[keys firstObject] isKindOfClass:[NSNumber class]]) {
+        return [keys sortedArrayUsingSelector:@selector(compare:)];
+    } else
+        return [[self allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
 - (NSArray *)allValuesSortedByKeys {
